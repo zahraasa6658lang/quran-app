@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "القرآن الكريم - تطبيق الحفظ"
+version = "1.0.0"
+id = "artifacts/quran-app"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18306
+
+[services.development]
+run = "pnpm --filter @workspace/quran-app run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/quran-app", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/quran-app/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18306"
+BASE_PATH = "/"

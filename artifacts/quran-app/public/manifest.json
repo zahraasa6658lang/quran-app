@@ -1,0 +1,23 @@
+{
+  "name": "القرآن الكريم",
+  "short_name": "القرآن",
+  "description": "تطبيق حفظ القرآن الكريم",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F4F0E6",
+  "theme_color": "#276749",
+  "dir": "rtl",
+  "lang": "ar",
+  "icons": [
+    {
+      "src": "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192' fill='%23276749'%3E%3Crect width='192' height='192' rx='36' fill='%23F4F0E6'/%3E%3Cpath d='M96 45C68 45 45 68 45 96C45 124 68 147 96 147C124 147 147 124 147 96C147 68 124 45 96 45ZM96 135C74 135 57 118 57 96C57 74 74 57 96 57C118 57 135 74 135 96C135 118 118 135 96 135ZM82 75L82 117L113 96Z' fill='%23276749'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' fill='%23276749'%3E%3Crect width='512' height='512' rx='100' fill='%23F4F0E6'/%3E%3Cpath d='M256 120C180 120 120 180 120 256C120 332 180 392 256 392C332 392 392 332 392 256C392 180 332 120 256 120ZM256 360C198 360 152 314 152 256C152 198 198 152 256 152C314 152 360 198 360 256C360 314 314 360 256 360ZM220 200L220 312L280 256Z' fill='%23276749'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
