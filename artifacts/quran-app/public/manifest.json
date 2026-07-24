@@ -1,23 +1,51 @@
 {
-  "name": "القرآن الكريم",
+  "name": "القرآن الكريم - تطبيق الحفظ",
   "short_name": "القرآن",
-  "description": "تطبيق حفظ القرآن الكريم",
+  "description": "تطبيق حفظ القرآن الكريم — اقرأ، استمع، وتابع وردك اليومي. يعمل بدون إنترنت.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#F4F0E6",
   "theme_color": "#276749",
   "dir": "rtl",
   "lang": "ar",
+  "categories": ["education", "lifestyle", "religion"],
   "icons": [
     {
-      "src": "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192' fill='%23276749'%3E%3Crect width='192' height='192' rx='36' fill='%23F4F0E6'/%3E%3Cpath d='M96 45C68 45 45 68 45 96C45 124 68 147 96 147C124 147 147 124 147 96C147 68 124 45 96 45ZM96 135C74 135 57 118 57 96C57 74 74 57 96 57C118 57 135 74 135 96C135 118 118 135 96 135ZM82 75L82 117L113 96Z' fill='%23276749'/%3E%3C/svg%3E",
+      "src": "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%23276749'/%3E%3Ctext x='96' y='130' font-size='110' text-anchor='middle' font-family='serif' fill='%23D4AF37'%3E%D9%82%3C/text%3E%3C/svg%3E",
       "sizes": "192x192",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
-      "src": "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' fill='%23276749'%3E%3Crect width='512' height='512' rx='100' fill='%23F4F0E6'/%3E%3Cpath d='M256 120C180 120 120 180 120 256C120 332 180 392 256 392C332 392 392 332 392 256C392 180 332 120 256 120ZM256 360C198 360 152 314 152 256C152 198 198 152 256 152C314 152 360 198 360 256C360 314 314 360 256 360ZM220 200L220 312L280 256Z' fill='%23276749'/%3E%3C/svg%3E",
+      "src": "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%23276749'/%3E%3Ctext x='256' y='345' font-size='300' text-anchor='middle' font-family='serif' fill='%23D4AF37'%3E%D9%82%3C/text%3E%3C/svg%3E",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "القرآن الكريم",
+      "short_name": "القرآن",
+      "description": "اقرأ القرآن الكريم",
+      "url": "/quran",
+      "icons": [{ "src": "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='18' fill='%23276749'/%3E%3Ctext x='48' y='65' font-size='55' text-anchor='middle' fill='%23D4AF37'%3E%F0%9F%93%96%3C/text%3E%3C/svg%3E", "sizes": "96x96" }]
+    },
+    {
+      "name": "الورد اليومي",
+      "short_name": "الورد",
+      "description": "تابع وردك اليومي",
+      "url": "/ward",
+      "icons": [{ "src": "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='18' fill='%23276749'/%3E%3Ctext x='48' y='65' font-size='55' text-anchor='middle' fill='%23D4AF37'%3E%F0%9F%8E%AF%3C/text%3E%3C/svg%3E", "sizes": "96x96" }]
+    },
+    {
+      "name": "المسبحة",
+      "short_name": "المسبحة",
+      "description": "مسبحة رقمية",
+      "url": "/tasbih",
+      "icons": [{ "src": "data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 96 96'%3E%3Crect width='96' height='96' rx='18' fill='%23276749'/%3E%3Ctext x='48' y='65' font-size='55' text-anchor='middle' fill='%23D4AF37'%3E%F0%9F%93%BF%3C/text%3E%3C/svg%3E", "sizes": "96x96" }]
     }
   ]
 }

@@ -4,6 +4,9 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
 import { Layout } from '@/components/layout/Layout';
+import { PwaInstallBanner } from '@/components/PwaInstallBanner';
+import { useDailyNotification } from '@/hooks/use-daily-notification';
+import { useAppStore } from '@/store/use-app-store';
 
 // Pages
 import Home from '@/pages/Home';
@@ -22,6 +25,13 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+/** Runs hooks that need to stay alive across all pages */
+function GlobalEffects() {
+  const { notifTime, notifEnabled } = useAppStore();
+  useDailyNotification(notifTime, notifEnabled);
+  return null;
+}
 
 function Router() {
   return (
@@ -45,7 +55,9 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+          <GlobalEffects />
           <Router />
+          <PwaInstallBanner />
         </WouterRouter>
         <Toaster />
       </TooltipProvider>

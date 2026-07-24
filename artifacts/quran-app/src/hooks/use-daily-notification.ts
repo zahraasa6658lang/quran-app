@@ -1,11 +1,14 @@
+/**
+ * Fires a 4-note chime + browser Notification at the user-chosen time,
+ * once per day, while the app is open.
+ */
 import { useEffect, useRef } from 'react';
 
-function playReminderSound() {
+function playReminderChime() {
   try {
     const Ctx = window.AudioContext || (window as any).webkitAudioContext;
     if (!Ctx) return;
     const ctx = new Ctx();
-    // Gentle ascending chime — 4 notes
     [
       { freq: 330, start: 0,    dur: 0.9 },
       { freq: 392, start: 0.35, dur: 0.9 },
@@ -19,7 +22,7 @@ function playReminderSound() {
       osc.type = 'sine';
       osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
       gain.gain.setValueAtTime(0, ctx.currentTime + start);
-      gain.gain.linearRampToValueAtTime(0.22, ctx.currentTime + start + 0.06);
+      gain.gain.linearRampToValueAtTime(0.22,  ctx.currentTime + start + 0.06);
       gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + dur);
       osc.start(ctx.currentTime + start);
       osc.stop(ctx.currentTime + start + dur + 0.05);
@@ -27,50 +30,43 @@ function playReminderSound() {
   } catch {}
 }
 
-function showBrowserNotification(notifTime: string) {
-  if (!('Notification' in window)) return;
-  if (Notification.permission === 'granted') {
-    new Notification('القرآن الكريم — موعد الورد اليومي', {
-      body: `حان وقت ورد القرآن الكريم (${notifTime})، لا تفوّت نصيبك اليوم.`,
-      icon: '/favicon.svg',
-    });
-  }
+function sendBrowserNotification() {
+  try {
+    if ('Notification' in window && Notification.permission === 'granted') {
+      new Notification('القرآن الكريم 📖', {
+        body: 'حان وقت وردك اليومي! لا تنسَ حظك من القرآن الكريم.',
+        icon: '/manifest.json',
+        tag: 'daily-ward',
+        renotify: false,
+      });
+    }
+  } catch {}
 }
 
-/**
- * Checks every minute whether the current time matches the user-chosen
- * notification time.  When it matches it plays the reminder audio chime
- * and (if permission was granted) shows a browser notification.
- */
-export function useDailyNotification(
-  notifTime: string,   // "HH:MM"
-  notifEnabled: boolean,
-) {
-  const firedRef = useRef<string | null>(null); // tracks last fired "HH:MM" to avoid double-fire
+const FIRED_KEY = 'daily_notif_last_fired';
+
+export function useDailyNotification(notifTime: string, notifEnabled: boolean) {
+  const lastFiredRef = useRef<string>('');
 
   useEffect(() => {
     if (!notifEnabled || !notifTime) return;
 
-    const tick = () => {
-      const now  = new Date();
-      const hh   = String(now.getHours()).padStart(2, '0');
-      const mm   = String(now.getMinutes()).padStart(2, '0');
-      const current = `${hh}:${mm}`;
+    const interval = setInterval(() => {
+      const now    = new Date();
+      const hhmm   = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const today  = now.toISOString().split('T')[0];
+      const firedKey = `${today}_${notifTime}`;
 
-      if (current === notifTime && firedRef.current !== current) {
-        firedRef.current = current;
-        playReminderSound();
-        showBrowserNotification(notifTime);
+      // Only fire once per (day × configured-time)
+      const lastFired = localStorage.getItem(FIRED_KEY) ?? '';
+      if (hhmm === notifTime && lastFired !== firedKey && lastFiredRef.current !== firedKey) {
+        lastFiredRef.current = firedKey;
+        try { localStorage.setItem(FIRED_KEY, firedKey); } catch {}
+        playReminderChime();
+        sendBrowserNotification();
       }
+    }, 30_000); // check every 30 seconds
 
-      // Reset the guard when the minute changes so it can fire again next day
-      if (current !== notifTime && firedRef.current === notifTime) {
-        firedRef.current = null;
-      }
-    };
-
-    tick(); // check immediately on mount / re-enable
-    const id = setInterval(tick, 30_000); // every 30 s is precise enough
-    return () => clearInterval(id);
+    return () => clearInterval(interval);
   }, [notifTime, notifEnabled]);
 }
