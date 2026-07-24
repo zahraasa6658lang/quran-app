@@ -13,16 +13,25 @@ interface AppState {
   currentPage: number;
   mode: Mode;
   fontSize: FontSize;
-  dailyGoal: number; // in pages
+  dailyGoal: number;
   dailyProgress: DailyProgress;
   streak: number;
   lastReadDate: string | null;
+  // 365-day program
+  startDate: string | null;
+  // Notifications
+  notifTime: string;
+  notifEnabled: boolean;
+
   setCurrentPage: (page: number) => void;
   setMode: (mode: Mode) => void;
   setFontSize: (size: FontSize) => void;
   setDailyGoal: (goal: number) => void;
   markPageRead: (page: number) => void;
   checkStreak: () => void;
+  startProgram: () => void;
+  setNotifTime: (time: string) => void;
+  setNotifEnabled: (enabled: boolean) => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -38,24 +47,33 @@ export const useAppStore = create<AppState>()(
       },
       streak: 0,
       lastReadDate: null,
+      startDate: null,
+      notifTime: '05:00',
+      notifEnabled: false,
 
       setCurrentPage: (page) => set({ currentPage: page }),
       setMode: (mode) => set({ mode }),
       setFontSize: (fontSize) => set({ fontSize }),
       setDailyGoal: (dailyGoal) => set({ dailyGoal }),
+      setNotifTime: (notifTime) => set({ notifTime }),
+      setNotifEnabled: (notifEnabled) => set({ notifEnabled }),
+
+      startProgram: () => {
+        const today = new Date().toISOString().split('T')[0];
+        const state = get();
+        if (!state.startDate) set({ startDate: today });
+      },
 
       markPageRead: (page) => {
         const today = new Date().toISOString().split('T')[0];
         const state = get();
-        
+
         let newProgress = { ...state.dailyProgress };
         let newStreak = state.streak;
         let newLastReadDate = state.lastReadDate;
 
-        // Reset progress if it's a new day
         if (newProgress.date !== today) {
           newProgress = { date: today, pagesRead: [] };
-          // Check if streak was broken (if lastReadDate was not yesterday)
           if (state.lastReadDate) {
             const yesterday = new Date();
             yesterday.setDate(yesterday.getDate() - 1);
@@ -70,7 +88,6 @@ export const useAppStore = create<AppState>()(
           newProgress.pagesRead.push(page);
         }
 
-        // Check if goal met today
         if (newProgress.pagesRead.length >= state.dailyGoal && state.lastReadDate !== today) {
           newStreak += 1;
           newLastReadDate = today;
@@ -84,21 +101,18 @@ export const useAppStore = create<AppState>()(
       },
 
       checkStreak: () => {
-        const today = new Date().toISOString().split('T')[0];
         const state = get();
         if (state.lastReadDate) {
           const yesterday = new Date();
           yesterday.setDate(yesterday.getDate() - 1);
           const yesterdayStr = yesterday.toISOString().split('T')[0];
-          
+          const today = new Date().toISOString().split('T')[0];
           if (state.lastReadDate !== yesterdayStr && state.lastReadDate !== today) {
             set({ streak: 0 });
           }
         }
-      }
+      },
     }),
-    {
-      name: 'quran-app-storage',
-    }
+    { name: 'quran-app-storage' }
   )
 );
