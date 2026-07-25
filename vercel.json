@@ -1,6 +1,6 @@
 {
   "buildCommand": "pnpm --filter @workspace/quran-app run build",
-  "outputDirectory": "artifacts/quran-app/dist/public",
+  "outputDirectory": "public",
   "installCommand": "pnpm install",
   "framework": null,
   "rewrites": [
