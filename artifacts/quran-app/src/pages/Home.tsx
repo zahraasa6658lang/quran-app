@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Link } from 'wouter';
 import { useAppStore } from '@/store/use-app-store';
 import { buildSchedule, getCurrentDay, yearProgress } from '@/lib/schedule';
-import splashImg from '@assets/generated_images/splash-quran.jpg';
+import splashImg from '@/assets/splash-quran.jpg';
 
 const SCHEDULE = buildSchedule();
 
